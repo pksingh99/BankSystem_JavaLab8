@@ -10,7 +10,7 @@ package banksystem.lab4.core.moneyamount;
  *
  * @author alex
  */
-public class MoneyAmount {
+public class MoneyAmount implements Comparable<MoneyAmount>{
     final int dollars;
 
     public MoneyAmount(int value) {
@@ -31,5 +31,10 @@ public class MoneyAmount {
         int newValue = this.getValue() + addingMoney.getValue();
         MoneyAmount result = new MoneyAmount(newValue);
         return result;
+    }
+
+    @Override
+    public int compareTo(MoneyAmount o) {
+        return 0;
     }
 }

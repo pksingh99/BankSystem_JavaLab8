@@ -7,6 +7,9 @@
 package banksystem.lab4.core.bank;
 
 import banksystem.lab4.core.account.Account;
+import banksystem.lab4.core.account.AccountProxy;
+import banksystem.lab4.core.moneyamount.MoneyAmount;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -15,12 +18,16 @@ import java.util.HashMap;
  */
 public interface IBank {
     
-    public Account getAccount(int id);
+    public AccountProxy getAccountProxy(int id);
     
     public int generateNewAccountId();
     
     public void addNewAccount(Account newAccount);
     
-    public HashMap<Integer, Account> getAccounts(); 
+    public HashMap<Integer, AccountProxy> getAccountProxies(); 
+    
+    public MoneyAmount getSummary();
+    
+    public Collection<Integer> getIdList();
     
 }

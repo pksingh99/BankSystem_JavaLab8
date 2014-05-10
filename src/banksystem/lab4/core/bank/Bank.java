@@ -7,6 +7,9 @@
 package banksystem.lab4.core.bank;
 
 import banksystem.lab4.core.account.Account;
+import banksystem.lab4.core.account.AccountProxy;
+import banksystem.lab4.core.moneyamount.MoneyAmount;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -17,15 +20,17 @@ import java.util.HashMap;
 public class Bank implements IBank{
 
     private int nextAllowedId;
-    private final HashMap<Integer, Account> accounts;
+    private final HashMap<Integer, AccountProxy> accounts;
+    private MoneyAmount bankSummary;
     
     public Bank(){
         this.nextAllowedId=1;
-        this.accounts=(HashMap<Integer, Account>) Collections.synchronizedMap(new HashMap<Integer, Account>());
+        this.accounts=(HashMap<Integer, AccountProxy>) Collections.synchronizedMap(new HashMap<Integer, AccountProxy>());
+        this.bankSummary=new MoneyAmount(0);
     }
     
     @Override
-    public Account getAccount(int id) {
+    public AccountProxy getAccountProxy(int id) {
         if (!(this.accounts.containsKey(id))) return null;
         return this.accounts.get(id);
     }
@@ -38,13 +43,24 @@ public class Bank implements IBank{
     }
 
     @Override
-    public void addNewAccount(Account newAccount) {
-        this.accounts.put(newAccount.getId(), newAccount);
+    public synchronized void addNewAccount(Account newAccount) {
+        this.accounts.put(newAccount.getId(), new AccountProxy(newAccount));
+        this.bankSummary=this.bankSummary.add(newAccount.getAvailableMoney());
     }
 
     @Override
-    public HashMap<Integer, Account> getAccounts() {
+    public HashMap<Integer, AccountProxy> getAccountProxies() {
         return this.accounts;
+    }
+
+    @Override
+    public MoneyAmount getSummary() {
+        return this.bankSummary;
+    }
+
+    @Override
+    public Collection<Integer> getIdList() {
+        return this.accounts.keySet();
     }
     
 }

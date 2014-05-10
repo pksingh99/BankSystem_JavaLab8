@@ -12,25 +12,23 @@ import banksystem.lab4.core.moneyamount.MoneyAmount;
  *
  * @author andrew
  */
-public class DepositeImpl implements IDeposite{
-
+public class CashierAccess implements ICashierAccess{
+    
     private final Account account;
     
-    public DepositeImpl(Account account){
+    public CashierAccess(Account account){
         this.account=account;
     }
-    
-    
+
     @Override
     public MoneyAmount getAvailableMoney() {
         return this.account.getAvailableMoney();
     }
 
     @Override
-    public void deposite(MoneyAmount moneyAmount) {
-        this.account.deposite(moneyAmount);
+    public void reserve(MoneyAmount moneyAmount) {
+        this.account.reserve(moneyAmount);
     }
-    
     
     
     

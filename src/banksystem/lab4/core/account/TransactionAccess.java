@@ -7,29 +7,28 @@
 package banksystem.lab4.core.account;
 
 import banksystem.lab4.core.moneyamount.MoneyAmount;
+import java.util.logging.Logger;
 
 /**
  *
  * @author andrew
  */
-public class WithdrawImpl implements IWithdraw{
+public class TransactionAccess implements ITransactionAccess{
     
     private final Account account;
-    
-    public WithdrawImpl(Account account){
-        this.account=account;
+
+    public TransactionAccess(Account account) {
+        this.account = account;
     }
 
     @Override
-    public MoneyAmount getAvailableMoney() {
-        return this.account.getAvailableMoney();
+    public void deposite(MoneyAmount moneyToDeposite) {
+        this.account.deposite(moneyToDeposite);
     }
 
     @Override
-    public void withdraw(MoneyAmount moneyAmount) {
-        this.account.withdraw(moneyAmount);
+    public void withdraw(MoneyAmount moneyToWithdraw) {
+        this.account.withdraw(moneyToWithdraw);
     }
-    
-    
     
 }

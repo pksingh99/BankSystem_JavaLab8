@@ -6,54 +6,52 @@
 
 package banksystem.lab4.core.broker;
 
-import banksystem.lab4.core.account.Account;
-import banksystem.lab4.core.account.IAccount;
+import banksystem.lab4.core.account.AccountProxy;
+import banksystem.lab4.core.account.ISummaryCheckerAccess;
+import banksystem.lab4.core.account.ITransactionAccess;
 import banksystem.lab4.core.moneyamount.MoneyAmount;
 
 /**
  *
  * @author alex
  */
-public class CheckableAccount implements IAccount{    
-    public enum AccountState{
+public class CheckableAccount implements ITransactionAccess, ISummaryCheckerAccess{    
+    
+    public static enum AccountState{
         CHECKED,
         UNCHECKED,
         BUSY
     }
     
-    private final Account realAccount;
+    private final ITransactionAccess transactionInterface;
+    private final ISummaryCheckerAccess summaryCheckerInterface;
     private AccountState accountState;
     
     
 
-    public CheckableAccount(Account realAccount) {
-        this.realAccount = realAccount;
+    public CheckableAccount(AccountProxy accountProxy) {
+        this.transactionInterface=accountProxy.getTransactionInterface();
+        this.summaryCheckerInterface=accountProxy.getSummaryCheckerInterface();
+        
+        
         this.accountState = AccountState.UNCHECKED;
     }
-    
-    
-    
-    @Override
+       
+   @Override
     public void deposite(MoneyAmount moneyToDeposite) {
-        this.realAccount.deposite(moneyToDeposite);
-    }
-
-    @Override
-    public MoneyAmount getAvailableMoney() {
-        return this.realAccount.getAvailableMoney();
-    }
-
-    @Override
-    public int getId() {
-        return this.realAccount.getId();
+       this.transactionInterface.deposite(moneyToDeposite);
     }
 
     @Override
     public void withdraw(MoneyAmount moneyToWithdraw) {
-        this.realAccount.withdraw(moneyToWithdraw);
+        this.transactionInterface.withdraw(moneyToWithdraw);
     }
-    
-    
+
+    @Override
+    public MoneyAmount getAccountSummary() {
+        return this.summaryCheckerInterface.getAccountSummary();
+    }
+
     
     public void setState(AccountState state){
         this.accountState = state;

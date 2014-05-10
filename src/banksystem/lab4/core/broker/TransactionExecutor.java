@@ -6,7 +6,7 @@
 
 package banksystem.lab4.core.broker;
 
-import banksystem.lab4.core.account.IAccount;
+import banksystem.lab4.core.account.ITransactionAccess;
 import banksystem.lab4.core.transaction.Transaction;
 
 /**
@@ -27,11 +27,13 @@ public class TransactionExecutor {
         CheckableAccount.AccountState senderState = this.broker.getAccountStateById(transaction.getSenderId());
         CheckableAccount.AccountState recieverState = this.broker.getAccountStateById(transaction.getRecieverId());
         
-        boolean isSameState = senderState == recieverState;
+        boolean isSameState = (senderState == recieverState);
         
         if(isSameState){
-            IAccount reciever = this.broker.getAccountById(transaction.getRecieverId());
+            ITransactionAccess reciever = this.broker.getAccountById(transaction.getRecieverId());
             reciever.deposite(transaction.getMoneyAmount());
+            ITransactionAccess sender = this.broker.getAccountById(transaction.getSenderId());
+            sender.withdraw(transaction.getMoneyAmount());
         }
         
         return isSameState;

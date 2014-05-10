@@ -7,6 +7,7 @@
 package banksystem.lab4.core.broker;
 
 import banksystem.lab4.core.account.Account;
+import banksystem.lab4.core.account.AccountProxy;
 import banksystem.lab4.core.bank.IBank;
 import banksystem.lab4.core.moneyamount.MoneyAmount;
 import banksystem.lab4.core.transaction.Transaction;
@@ -30,8 +31,6 @@ public class Broker implements IBroker{
         this.transactionExecutor = new TransactionExecutor(this);
     }
 
-    
-    
     @Override
     public synchronized boolean execute(Transaction transaction) {
         boolean executed = this.transactionExecutor.execute(transaction);
@@ -50,7 +49,7 @@ public class Broker implements IBroker{
     public synchronized MoneyAmount getAmountAndSetChecked(int accountId) {
         CheckableAccount workingAccount = this.accounts.get(accountId);
         workingAccount.setState(CheckableAccount.AccountState.CHECKED);
-        MoneyAmount result = workingAccount.getAvailableMoney();
+        MoneyAmount result = workingAccount.getAccountSummary();
         return result;
     }
     
@@ -63,7 +62,7 @@ public class Broker implements IBroker{
     }
     
     private void initiateAccounts(IBank bank) {
-        for(Entry<Integer, Account> entry : bank.getAccounts().entrySet()){
+        for(Entry<Integer, AccountProxy> entry : bank.getAccountProxies().entrySet()){
             this.accounts.put(entry.getKey(), new CheckableAccount(entry.getValue()));
         }
     }

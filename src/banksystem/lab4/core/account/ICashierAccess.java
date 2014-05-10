@@ -12,10 +12,10 @@ import banksystem.lab4.core.moneyamount.MoneyAmount;
  *
  * @author andrew
  */
-public interface IDeposite {
+public interface ICashierAccess {
     
-     public MoneyAmount getAvailableMoney();
-     
-     public void deposite(MoneyAmount moneyAmount);
+    public MoneyAmount getAvailableMoney();
+    
+    public void reserve(MoneyAmount moneyAmount);
     
 }

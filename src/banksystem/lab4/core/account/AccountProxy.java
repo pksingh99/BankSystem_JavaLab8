@@ -7,54 +7,57 @@
 package banksystem.lab4.core.account;
 
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author andrew
  */
-public class AccountProxy {
+public class AccountProxy implements IAccountProxy {
     
     private final Account account;
-    private final IDeposite depositeInterface;
-    private final IWithdraw withdrawInterface;
     
-    private volatile boolean isWithdrawInterfaceOccupied;
-    private Semaphore withdrawInterfaceSemaphore;
+    
+    private final ITransactionAccess transactionInterface;
+    private final ICashierAccess cashierInterface;
+    private final ISummaryCheckerAccess summaryCheckerInterface;
+    
+    private final Semaphore withdrawInterfaceSemaphore;
     
     
     
     public AccountProxy(Account account){
         this.account=account;
-        this.depositeInterface = new DepositeImpl(this.account);
-        this.withdrawInterface = new WithdrawImpl(this.account);
+        this.transactionInterface = new TransactionAccess(this.account);
+        this.cashierInterface = new CashierAccess(this.account);
+        this.summaryCheckerInterface = new SummaryCheckerAccess(this.account);
         this.withdrawInterfaceSemaphore=new Semaphore(1);
         
     }
     
-    public IDeposite acquireDepositeInterface(){
-        return this.depositeInterface;
+    @Override
+    public ITransactionAccess getTransactionInterface(){
+        return this.transactionInterface;
     }
     
-    public void releaseDepositeInterface(){
-        //do nothing
-    }
-    
-    public IWithdraw acquireWithdrawInterface(){
+    @Override
+    public ICashierAccess acquireWithdrawInterface(){
         try {
             this.withdrawInterfaceSemaphore.acquire();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
             this.withdrawInterfaceSemaphore.release();
         }
-       return this.withdrawInterface;
+       return this.cashierInterface;
     }
     
-    
+    @Override
     public void releaseWithdrawInterface(){
         this.withdrawInterfaceSemaphore.release();
+    }
+
+    @Override
+    public ISummaryCheckerAccess getSummaryCheckerInterface() {
+       return this.summaryCheckerInterface;
     }
  
 }

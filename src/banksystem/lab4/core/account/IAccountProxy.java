@@ -6,16 +6,18 @@
 
 package banksystem.lab4.core.account;
 
-import banksystem.lab4.core.moneyamount.MoneyAmount;
-
 /**
  *
  * @author andrew
  */
-public interface IWithdraw {
+public interface IAccountProxy {
+
+    ICashierAccess acquireWithdrawInterface();
+
+    ITransactionAccess getTransactionInterface();
     
-    public MoneyAmount getAvailableMoney();
-    
-    public void withdraw(MoneyAmount moneyAmount);
+    ISummaryCheckerAccess getSummaryCheckerInterface();
+
+    void releaseWithdrawInterface();
     
 }
