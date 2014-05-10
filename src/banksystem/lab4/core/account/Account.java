@@ -12,7 +12,7 @@ import banksystem.lab4.core.moneyamount.MoneyAmount;
  *
  * @author andrew
  */
-public class Account {
+public class Account implements IAccount {
     
     private final int id;
     
@@ -23,14 +23,17 @@ public class Account {
         this.id=id;
     }
     
+    @Override
     public int getId(){
         return this.id;
     }
     
+    @Override
     public MoneyAmount getAvailableMoney(){
         return this.availableMoneyAmount;
     }
     
+    @Override
     public synchronized void deposite(MoneyAmount moneyToDeposite){
         this.availableMoneyAmount = this.availableMoneyAmount.add(moneyToDeposite);
     }
@@ -39,6 +42,7 @@ public class Account {
      * Предполагаем, что снимаемая сумма гарантированно есть на счёте
      * @param moneyToWithdraw 
      */
+    @Override
     public synchronized void withdraw(MoneyAmount moneyToWithdraw){
         this.availableMoneyAmount=this.availableMoneyAmount.substract(moneyToWithdraw);
     }

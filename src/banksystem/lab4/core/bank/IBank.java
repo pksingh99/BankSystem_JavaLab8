@@ -7,6 +7,7 @@
 package banksystem.lab4.core.bank;
 
 import banksystem.lab4.core.account.Account;
+import java.util.HashMap;
 
 /**
  *
@@ -19,5 +20,7 @@ public interface IBank {
     public int generateNewAccountId();
     
     public void addNewAccount(Account newAccount);
+    
+    public HashMap<Integer, Account> getAccounts(); 
     
 }
