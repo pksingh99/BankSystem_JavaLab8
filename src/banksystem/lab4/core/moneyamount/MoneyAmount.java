@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package banksystem.lab4;
+package banksystem.lab4.core.moneyamount;
 
 /**
  *
