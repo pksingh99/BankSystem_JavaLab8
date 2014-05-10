@@ -6,6 +6,7 @@
 
 package banksystem.lab4.core.broker;
 
+import banksystem.lab4.core.moneyamount.MoneyAmount;
 import banksystem.lab4.core.transaction.Transaction;
 
 /**
@@ -15,5 +16,5 @@ import banksystem.lab4.core.transaction.Transaction;
 public interface IBroker {
     boolean execute(Transaction transaction);
     boolean uncheckAll();
-    boolean setChecked(int accountId);
+    MoneyAmount getAmountAndSetChecked(int accountId);
 }
