@@ -41,5 +41,10 @@ public class Bank implements IBank{
     public void addNewAccount(Account newAccount) {
         this.accounts.put(newAccount.getId(), newAccount);
     }
+
+    @Override
+    public HashMap<Integer, Account> getAccounts() {
+        return this.accounts;
+    }
     
 }
