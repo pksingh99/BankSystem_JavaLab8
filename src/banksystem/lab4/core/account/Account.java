@@ -23,6 +23,7 @@ public class Account {
     public Account(int id, MoneyAmount availableMoney){
         this.id=id;
         this.availableMoneyAmount=availableMoney;
+        this.reservedMoneyAmount = new MoneyAmount(0);
     }
 
     public int getId(){

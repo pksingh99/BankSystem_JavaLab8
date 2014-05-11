@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration debug="false" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender"> 
+        <param name="Encoding" value="Cp866"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%t] [%-5p][%c] - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="SummaryCheckerAppender" class="org.apache.log4j.FileAppender">
+        <param name="file" value="log/daemon.out"/>
+        <param name="append" value="false" />
+        <param name="Encoding" value="Cp866"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%-5p][%c] - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="ClientsAppender" class="org.apache.log4j.FileAppender">
+        <param name="file" value="log/clients.out"/>        
+        <param name="append" value="false" />
+        <param name="Encoding" value="Cp866"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%t] [%-5p][%c] - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="TransactionQueueAppender" class="org.apache.log4j.FileAppender">
+        <param name="file" value="log/queue.out"/>        
+        <param name="append" value="false" />
+        <param name="Encoding" value="Cp866"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%t] [%-5p][%c] - %m%n" />
+        </layout>
+    </appender>
+
+    <logger name="Launcher" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="ConsoleAppender" />
+    </logger>
+
+    <logger name="banksystem.lab4.core.summaryChecker.SummaryChecker" additivity="false">
+        <appender-ref ref="SummaryCheckerAppender" />
+    </logger>
+
+    <logger name="banksystem.lab4.client" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="ConsoleAppender" />
+    </logger>
+
+    <logger name="banksystem.lab4.core.transaction" additivity="false">
+        <level value="TRACE" />
+        <appender-ref ref="TransactionQueueAppender" />
+    </logger>
+<!--     <logger name="Workspace" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+
+    <logger name="Workspace.ModelLayer.modelCreators" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+
+    <logger name="Workspace.ModelLayer.ProxyMover" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+
+    <logger name="Workspace.ModelLayer.OverflowScreenArithmetic" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+
+    <logger name="Workspace.ModelLayer.entityAdapters" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+
+    <logger name="Workspace.ViewLayer" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+ -->
+    <!-- <logger name="Workspace.ControllerLayer.tools.editingTool" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+
+    
+
+    <logger name="Workspace.ModelLayer.activeScreen" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger> -->
+
+    <root>
+        <priority value="DEBUG"/>
+        <appender-ref ref="ConsoleAppender" />
+    </root>
+
+</log4j:configuration>

@@ -54,7 +54,8 @@ public class Cashier {
         this.bank = bank;
         this.transactionQueue = transactionQueue;
         this.currentClientId = Cashier.NULL;
-        this.currentAccountId = Cashier.NULL;        
+        this.currentAccountId = Cashier.NULL;  
+        this.cashierState = CashierState.FREE;
     }
     
     /**
@@ -75,7 +76,7 @@ public class Cashier {
             if(this.currentClientId != clientId) return StartWorkWithAccountOperationResult.CASHIER_IS_BUSY;
             else{
                 this.currentAccountProxy = this.bank.getAccountProxy(accountId);
-                if(this.currentAccount == null) return StartWorkWithAccountOperationResult.ACCOUNT_NOT_FOUND;
+                if(this.currentAccountProxy == null) return StartWorkWithAccountOperationResult.ACCOUNT_NOT_FOUND;
                 else{
                     this.currentAccount = this.currentAccountProxy.acquireCashierInterface();
                     this.currentAccountId = accountId;

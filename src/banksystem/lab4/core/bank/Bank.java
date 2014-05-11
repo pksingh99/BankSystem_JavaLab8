@@ -12,6 +12,7 @@ import banksystem.lab4.core.moneyamount.MoneyAmount;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -20,12 +21,12 @@ import java.util.HashMap;
 public class Bank implements IBank{
 
     private int nextAllowedId;
-    private final HashMap<Integer, AccountProxy> accounts;
+    private final Map<Integer, AccountProxy> accounts;
     private MoneyAmount bankSummary;
     
     public Bank(){
         this.nextAllowedId=1;
-        this.accounts=(HashMap<Integer, AccountProxy>) Collections.synchronizedMap(new HashMap<Integer, AccountProxy>());
+        this.accounts=(Map<Integer, AccountProxy>) Collections.synchronizedMap(new HashMap<Integer, AccountProxy>());
         this.bankSummary=new MoneyAmount(0);
     }
     
@@ -49,7 +50,7 @@ public class Bank implements IBank{
     }
 
     @Override
-    public HashMap<Integer, AccountProxy> getAccountProxies() {
+    public Map<Integer, AccountProxy> getAccountProxies() {
         return this.accounts;
     }
 

@@ -10,7 +10,7 @@ import banksystem.lab4.core.account.Account;
 import banksystem.lab4.core.account.AccountProxy;
 import banksystem.lab4.core.moneyamount.MoneyAmount;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -24,7 +24,7 @@ public interface IBank {
     
     public void addNewAccount(Account newAccount);
     
-    public HashMap<Integer, AccountProxy> getAccountProxies(); 
+    public Map<Integer, AccountProxy> getAccountProxies(); 
     
     public MoneyAmount getSummary();
     

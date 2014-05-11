@@ -6,13 +6,13 @@
 
 package banksystem.lab4.core.broker;
 
-import banksystem.lab4.core.account.Account;
 import banksystem.lab4.core.account.AccountProxy;
 import banksystem.lab4.core.bank.IBank;
 import banksystem.lab4.core.moneyamount.MoneyAmount;
 import banksystem.lab4.core.transaction.Transaction;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -21,11 +21,11 @@ import java.util.Map.Entry;
  */
 public class Broker implements IBroker{
     private final TransactionExecutor transactionExecutor;
-    private final HashMap<Integer, CheckableAccount> accounts;
+    private final Map<Integer, CheckableAccount> accounts;
 
     public Broker(IBank bank) {
-        HashMap<Integer, CheckableAccount> map = new HashMap<>();
-        this.accounts = (HashMap<Integer, CheckableAccount>) Collections.synchronizedMap(map);
+        Map<Integer, CheckableAccount> map = new HashMap<>();
+        this.accounts = (Map<Integer, CheckableAccount>) Collections.synchronizedMap(map);
         initiateAccounts(bank);
         
         this.transactionExecutor = new TransactionExecutor(this);
