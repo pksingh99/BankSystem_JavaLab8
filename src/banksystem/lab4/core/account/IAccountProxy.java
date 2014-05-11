@@ -12,12 +12,12 @@ package banksystem.lab4.core.account;
  */
 public interface IAccountProxy {
 
-    ICashierAccess acquireWithdrawInterface();
+    ICashierAccess acquireCashierInterface();
 
     ITransactionAccess getTransactionInterface();
     
     ISummaryCheckerAccess getSummaryCheckerInterface();
 
-    void releaseWithdrawInterface();
+    void releaseCashierInterface();
     
 }

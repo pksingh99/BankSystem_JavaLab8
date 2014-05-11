@@ -35,6 +35,8 @@ public class MoneyAmount implements Comparable<MoneyAmount>{
 
     @Override
     public int compareTo(MoneyAmount o) {
-        return 0;
+        if (this.dollars > o.dollars) return 1;
+        if (this.dollars == o.dollars) return 0;
+        return -1;
     }
 }

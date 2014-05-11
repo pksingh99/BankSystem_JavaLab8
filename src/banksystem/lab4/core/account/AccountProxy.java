@@ -40,7 +40,7 @@ public class AccountProxy implements IAccountProxy {
     }
     
     @Override
-    public ICashierAccess acquireWithdrawInterface(){
+    public ICashierAccess acquireCashierInterface(){
         try {
             this.withdrawInterfaceSemaphore.acquire();
         } catch (InterruptedException ex) {
@@ -51,7 +51,7 @@ public class AccountProxy implements IAccountProxy {
     }
     
     @Override
-    public void releaseWithdrawInterface(){
+    public void releaseCashierInterface(){
         this.withdrawInterfaceSemaphore.release();
     }
 
