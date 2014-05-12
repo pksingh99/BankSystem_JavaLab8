@@ -7,11 +7,10 @@
 package banksystem.lab4.core.account;
 
 import banksystem.lab4.core.moneyamount.MoneyAmount;
-import java.util.logging.Logger;
 
 /**
  *
- * @author andrew
+ * @author alex
  */
 public class TransactionAccess implements ITransactionAccess{
     

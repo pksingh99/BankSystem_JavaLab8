@@ -10,7 +10,7 @@ import java.util.concurrent.Semaphore;
 
 /**
  *
- * @author andrew
+ * @author alex
  */
 public class AccountProxy implements IAccountProxy {
     
@@ -21,7 +21,7 @@ public class AccountProxy implements IAccountProxy {
     private final ICashierAccess cashierInterface;
     private final ISummaryCheckerAccess summaryCheckerInterface;
     
-    private final Semaphore withdrawInterfaceSemaphore;
+    private final Semaphore cashierInterfaceSemaphore;
     
     
     
@@ -30,7 +30,7 @@ public class AccountProxy implements IAccountProxy {
         this.transactionInterface = new TransactionAccess(this.account);
         this.cashierInterface = new CashierAccess(this.account);
         this.summaryCheckerInterface = new SummaryCheckerAccess(this.account);
-        this.withdrawInterfaceSemaphore=new Semaphore(1);
+        this.cashierInterfaceSemaphore=new Semaphore(1);
         
     }
     
@@ -42,17 +42,17 @@ public class AccountProxy implements IAccountProxy {
     @Override
     public ICashierAccess acquireCashierInterface(){
         try {
-            this.withdrawInterfaceSemaphore.acquire();
+            this.cashierInterfaceSemaphore.acquire();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
-            this.withdrawInterfaceSemaphore.release();
+            this.cashierInterfaceSemaphore.release();
         }
        return this.cashierInterface;
     }
     
     @Override
     public void releaseCashierInterface(){
-        this.withdrawInterfaceSemaphore.release();
+        this.cashierInterfaceSemaphore.release();
     }
 
     @Override

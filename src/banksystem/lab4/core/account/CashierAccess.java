@@ -10,7 +10,7 @@ import banksystem.lab4.core.moneyamount.MoneyAmount;
 
 /**
  *
- * @author andrew
+ * @author alex
  */
 public class CashierAccess implements ICashierAccess{
     

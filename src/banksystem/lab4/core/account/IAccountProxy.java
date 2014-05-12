@@ -8,7 +8,7 @@ package banksystem.lab4.core.account;
 
 /**
  *
- * @author andrew
+ * @author alex
  */
 public interface IAccountProxy {
 

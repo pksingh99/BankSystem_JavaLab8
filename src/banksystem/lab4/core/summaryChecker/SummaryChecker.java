@@ -10,13 +10,12 @@ import banksystem.lab4.core.bank.IBank;
 import banksystem.lab4.core.broker.IBroker;
 import banksystem.lab4.core.moneyamount.MoneyAmount;
 import java.util.Collection;
-import java.util.logging.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 /**
  *
- * @author andrew
+ * @author alex
  */
 public class SummaryChecker implements Runnable{
     private static final Logger logger = LogManager.getLogger(SummaryChecker.class);

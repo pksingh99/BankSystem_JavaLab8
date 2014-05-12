@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  *
- * @author andrew
+ * @author alex
  */
 public interface IBank {
     

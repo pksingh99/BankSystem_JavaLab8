@@ -11,7 +11,7 @@ import banksystem.lab4.core.transaction.TransactionQueue;
 
 /**
  *
- * @author andrew
+ * @author alex
  */
 public class CashierFactory {
     

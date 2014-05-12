@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author andrew
+ * @author alex
  */
 public class Cashier {
 
