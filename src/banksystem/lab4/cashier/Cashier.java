@@ -12,12 +12,15 @@ import banksystem.lab4.core.bank.IBank;
 import banksystem.lab4.core.moneyamount.MoneyAmount;
 import banksystem.lab4.core.transaction.Transaction;
 import banksystem.lab4.core.transaction.TransactionQueue;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author andrew
  */
 public class Cashier {
+
     
     private static enum CashierState{
         BUSY, FREE
@@ -35,11 +38,14 @@ public class Cashier {
         ACCOUNT_NOT_SETTED,
         CASHIER_IS_BUSY,
         NOT_ENOUGH_MONEY,
+        INVALID_MONEY_VALUE,
         INVALID_RECIEVER_ID,
         TRANSACTION_CREATED
     }
     
+    private static final Logger logger = LogManager.getLogger(Cashier.class);
     private static final int NULL = -1;
+    private static final MoneyAmount ZERO_MONEY = new MoneyAmount(0);
     
     private final IBank bank;
     private final TransactionQueue transactionQueue;
@@ -117,17 +123,29 @@ public class Cashier {
         if(this.cashierState != CashierState.BUSY) return TransferMoneyToAccountOperationResult.CASHIER_IS_NOT_OCCUPIED;
         if(this.currentClientId != clientId) return TransferMoneyToAccountOperationResult.CASHIER_IS_BUSY;
         else{
-            if (this.currentAccount == null) return TransferMoneyToAccountOperationResult.ACCOUNT_NOT_SETTED;
+            if (this.currentAccount == null){
+                logger.warn("Trying to transfer money without setted account!");
+                return TransferMoneyToAccountOperationResult.ACCOUNT_NOT_SETTED;
+            }
             else{
                 AccountProxy reciever = this.bank.getAccountProxy(recieverId);
-                if (reciever == null) return TransferMoneyToAccountOperationResult.INVALID_RECIEVER_ID;
+                if (reciever == null){ 
+                    logger.warn("Invalid reciever specified!");
+                    return TransferMoneyToAccountOperationResult.INVALID_RECIEVER_ID;
+                }
                 else{
+                    if(moneyToWithdraw.compareTo(Cashier.ZERO_MONEY) <= 0) {
+                        logger.warn("Trying transfer invalid money amount! [" + moneyToWithdraw.getValue() + "$]");
+                        return TransferMoneyToAccountOperationResult.INVALID_MONEY_VALUE;
+                    }
                     if (this.currentAccount.getAvailableMoney().compareTo(moneyToWithdraw) == -1){
+                        logger.warn("Trying to transfer more money that have! [" + moneyToWithdraw.getValue() + "$]");
                         return TransferMoneyToAccountOperationResult.NOT_ENOUGH_MONEY;
                     }
                     else{
                         Transaction transaction = new Transaction(moneyToWithdraw, this.currentAccountId, recieverId);
                         this.transactionQueue.add(transaction);
+                        logger.info(transactionAddedMessage(this.currentAccountId, recieverId, moneyToWithdraw));
                         return TransferMoneyToAccountOperationResult.TRANSACTION_CREATED;
                     }
                 }
@@ -152,4 +170,12 @@ public class Cashier {
            this.cashierState = CashierState.FREE;
         }
     }
+    
+    private Object transactionAddedMessage(int currentAccountId, int recieverId, MoneyAmount moneyToWithdraw) {
+        StringBuilder sb = new StringBuilder("Transaction from [account#");
+        sb.append(currentAccountId).append("] to [account#").append(recieverId).append("]");
+        sb.append(" for ").append(moneyToWithdraw.getValue()).append("$ created");
+        return sb.toString();
+    }
+    
 }

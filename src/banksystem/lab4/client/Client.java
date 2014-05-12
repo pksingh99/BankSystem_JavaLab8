@@ -10,6 +10,7 @@ import banksystem.lab4.cashier.Cashier;
 import banksystem.lab4.core.moneyamount.MoneyAmount;
 import java.util.Collection;
 import java.util.Random;
+import java.util.logging.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -59,22 +60,35 @@ public class Client implements Runnable{
         logger.info("Finish invokation");
     }
 
-    private void transferMoney(Random rand) {
+    private boolean transferMoney(Random rand) {
         int value = rand.nextInt();
         MoneyAmount moneyToTransfer = new MoneyAmount(value);
         
-        Cashier.TransferMoneyToAccountOperationResult result =
-                cashier.transferMoneyToAccount(this.id,this.accounts.iterator().next() , moneyToTransfer);
-        if(result == Cashier.TransferMoneyToAccountOperationResult.TRANSACTION_CREATED) return;
-        else{
+        Cashier.TransferMoneyToAccountOperationResult result;
+         
+        do{
+            result = cashier.transferMoneyToAccount(this.id,this.accounts.iterator().next() ,
+                    moneyToTransfer);
+            
             switch (result) {
                 case ACCOUNT_NOT_SETTED: {
                     logger.warn("Account not setted!");
-                } break;
-                default:
-                    throw new AssertionError();
+                    return false;
+                } 
+                
+                case CASHIER_IS_NOT_OCCUPIED: logger.warn("Cashier isn't occupied");return false;
+                case CASHIER_IS_BUSY: logger.warn("Cashier work with other."); return false;
+                case INVALID_RECIEVER_ID: logger.warn("Invalid reciever id"); return false;
+                case TRANSACTION_CREATED: logger.info("Successfully created transaction about " + value +"$.");break;
+                case NOT_ENOUGH_MONEY: {
+                    logger.info("Not enough money to transfer "+value+"$. Trying other value.");
+                    value = rand.nextInt();
+                    moneyToTransfer = new MoneyAmount(value);
+                } break; 
             }
-        }
+     
+        }while(result != Cashier.TransferMoneyToAccountOperationResult.TRANSACTION_CREATED);
+        return true;
     }
 
     private boolean startWorkWithAccount(Integer accountId) {
